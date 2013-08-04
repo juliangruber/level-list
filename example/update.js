@@ -34,10 +34,8 @@ document.body.appendChild(list.el);
 var i = 0;
 (function insert () {
   if (i < 5) {
-    console.log('insert', i);
     db.put(i+'', (new Date).toString());
   } else if (i < 10) {
-    console.log('delete', 5 - (i - 4));
     db.put((5 - (i - 4)) +'', (new Date).toString());
   } else {
     return;
