@@ -1,7 +1,7 @@
 {
   "name": "level-list",
   "description": "Map lists of data in a LevelDB to DOM elements.",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/juliangruber/level-list.git"
