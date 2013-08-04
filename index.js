@@ -8,7 +8,6 @@ function List (db, fn) {
   this.db = db;
   this.el = document.createElement('div');
   this.stream = null;
-  this.received = null;
   this._limit = Infinity;
   this.elements = {};
 
@@ -17,21 +16,24 @@ function List (db, fn) {
 
 List.prototype.seed = function (fn) {
   var self = this;
-
   self.stream = live(self.db, function (change) {
-    if (change.type == 'del') {
-      self.el.removeChild(self.elements[change.key]);
-      return;
-    }
 
-    // add element
+    // remove element if update or delete
+    if (self.elements[change.key]) {
+      self.el.removeChild(self.elements[change.key]);
+    }
+    if (change.type == 'del') return;
+
+    // insert
     var el = fn(change.value, change.key);
     self.el.appendChild(el);
     self.elements[change.key] = el;
 
-    if (++self.received == self._limit) {
+    // limit
+    if (self.elements.length == self._limit) {
       this.destroy();
     }
+
   });
 };
 
