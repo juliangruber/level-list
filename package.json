@@ -1,0 +1,38 @@
+{
+  "name": "level-list",
+  "description": "Map lists of data in a LevelDB to DOM elements.",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/juliangruber/level-list.git"
+  },
+  "homepage": "https://github.com/juliangruber/level-list",
+  "main": "index.js",
+  "scripts": {
+    "start": "beefy example/simple.js"
+  },
+  "dependencies": {
+    "level-live-stream": "~1.4.7"
+  },
+  "devDependencies": {
+    "tape": "*",
+    "memdb": "0.0.1",
+    "beefy": "~0.4.1"
+  },
+  "keywords": [
+    "level",
+    "leveldb",
+    "levelup",
+    "leveljs",
+    "dom",
+    "browser",
+    "list",
+    "browserify"
+  ],
+  "author": {
+    "name": "Julian Gruber",
+    "email": "mail@juliangruber.com",
+    "url": "http://juliangruber.com"
+  },
+  "license": "MIT"
+}
