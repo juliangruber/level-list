@@ -1,0 +1,1 @@
+module.exports = 'body {\n  font: 17px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;\n  padding: 50px 40px;\n}\n';

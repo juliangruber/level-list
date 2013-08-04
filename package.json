@@ -17,7 +17,8 @@
   "devDependencies": {
     "tape": "*",
     "memdb": "0.0.1",
-    "beefy": "~0.4.1"
+    "beefy": "~0.4.1",
+    "insert-css": "0.0.0"
   },
   "keywords": [
     "level",

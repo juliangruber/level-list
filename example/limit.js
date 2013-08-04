@@ -4,6 +4,7 @@
 
 var List = require('..');
 var MemDB = require('memdb');
+require('insert-css')(require('./style'));
 
 /**
  * LevelUp style db.
