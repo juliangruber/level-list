@@ -18,21 +18,26 @@ List.prototype.seed = function (fn) {
   var self = this;
   self.stream = live(self.db, function (change) {
 
-    // remove element if update or delete
-    if (self.elements[change.key]) {
+    // delete?
+    if (change.type == 'del') {
       self.el.removeChild(self.elements[change.key]);
+      return;
     }
-    if (change.type == 'del') return;
 
-    // insert
+    // create element
     var el = fn(change.value, change.key);
-    self.el.appendChild(el);
+    var old = self.elements[change.key];
     self.elements[change.key] = el;
 
-    // limit
-    if (self.elements.length == self._limit) {
-      this.destroy();
+    // update?
+    if (old) {
+      self.el.replaceChild(el, old);
+      return;
     }
+
+    // insert
+    self.el.appendChild(el);
+    if (self.elements.length == self._limit) this.destroy();
 
   });
 };
