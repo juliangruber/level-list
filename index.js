@@ -1,4 +1,4 @@
-var live = require('level-live-stream');
+var liveStream = require('level-live-stream');
 
 module.exports = List;
 
@@ -17,19 +17,20 @@ function List (db, fn) {
 
 List.prototype.seed = function (fn) {
   var self = this;
-  self.stream = live(self.db);
-  self.stream.on('data', function (change) {
+
+  self.stream = live(self.db, function (change) {
     if (change.type == 'del') {
       self.el.removeChild(self.elements[change.key]);
       return;
     }
 
+    // add element
     var el = fn(change.value, change.key);
     self.el.appendChild(el);
     self.elements[change.key] = el;
 
     if (++self.received == self._limit) {
-      self.stream.destroy();
+      this.destroy();
     }
   });
 };
@@ -37,3 +38,7 @@ List.prototype.seed = function (fn) {
 List.prototype.limit = function (count) {
   this._limit = count;
 };
+
+function live (db, fn) {
+  return liveStream(db).on('data', fn);
+}
