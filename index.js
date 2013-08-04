@@ -18,7 +18,7 @@ List.prototype.seed = function (fn) {
   var self = this;
   self.stream = live(self.db);
   self.stream.on('data', function (chg) {
-    self.el.appendChild(fn(chg.value));
+    self.el.appendChild(fn(chg.value, chg.key));
     if (++self.received == self._limit) {
       self.stream.destroy();
     }

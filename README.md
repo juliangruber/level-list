@@ -34,10 +34,14 @@ document.body.appendChild(list.el);
 Todo.
 
 ### List(db, fn)
+
+`fn` is called with `(value, key)`.
+
 ### List#limit(count)
 
 ## TODO
 
+* delete events
 * sorting
 * infinite scrolling and/or load more
 
