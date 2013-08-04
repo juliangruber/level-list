@@ -4,14 +4,27 @@ module.exports = List;
 
 function List (db, fn) {
   if (!(this instanceof List)) return new List(db, fn);
+
   this.db = db;
   this.el = document.createElement('div');
-  this.seed(fn);
+  this.stream = null;
+  this.received = null;
+  this._limit = Infinity;
+
+  process.nextTick(this.seed.bind(this, fn));
 }
 
 List.prototype.seed = function (fn) {
-  var el = this.el;
-  live(this.db).on('data', function (chg) {
-    el.appendChild(fn(chg.value));
+  var self = this;
+  self.stream = live(self.db);
+  self.stream.on('data', function (chg) {
+    self.el.appendChild(fn(chg.value));
+    if (++self.received == self._limit) {
+      self.stream.destroy();
+    }
   });
-}
+};
+
+List.prototype.limit = function (count) {
+  this._limit = count;
+};
