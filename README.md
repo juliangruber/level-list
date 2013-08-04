@@ -31,13 +31,13 @@ document.body.appendChild(list.el);
 
 ## API
 
-### List(db, fn)
-
 Todo.
+
+### List(db, fn)
+### List#limit(count)
 
 ## TODO
 
-* limit option
 * sorting
 * infinite scrolling and/or load more
 
