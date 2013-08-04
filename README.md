@@ -41,7 +41,7 @@ Todo.
 
 ## TODO
 
-* delete events
+* emit delete event
 * sorting
 * infinite scrolling and/or load more
 
