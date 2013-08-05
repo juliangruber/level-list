@@ -19,10 +19,6 @@ var db = MemDB();
 var list = List(db, function (row) {
   var el = document.createElement('p');
   el.appendChild(document.createTextNode(row.value));
-  row.on('update', function (row) {
-    el.innerHTML = '';
-    el.appendChild(document.createTextNode(row.value));
-  });
   return el;
 });
 

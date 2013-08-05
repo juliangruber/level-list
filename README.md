@@ -38,11 +38,8 @@ dom elements here or to `List#create`.
 
 ### List#create(fn)
 
-`fn` is called with a `row` and should return a dom element.
-
-Row is a EventEmitter with `key`, `value` as keys. It emits a `remove`
-events when an already showed row needs to be removed, so you can clean up if
-necessary.
+`fn` is called with a `row` and should return a dom element. `row` is an
+EventEmitter with `key`, `value` as keys. See its events below.
 
 ### List#limit(count)
 
@@ -65,6 +62,16 @@ list.sort(comparator.desc('key'));
 ### List#el
 
 The list's dom element.
+
+### Row#on('remove', fn)
+
+A `remove` event is emitted when an already showed row needs to be removed, so
+you can clean up if necessary.
+
+### Row#on('update', fn)
+
+If you listen for the `update` event, your dom element won't be replaced.
+Instead, you get the new data, so you can update it yourself.
 
 ## TODO
 

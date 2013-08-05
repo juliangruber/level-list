@@ -32,20 +32,26 @@ List.prototype.seed = function () {
       return;
     }
 
-    // create element
+    // current row?
+    var cur = self.rows[id];
+
+    // update?
+    if (cur && cur.listeners('update').length) {
+      cur.emit('update', { key: id, value: change.value });
+      return;
+    }
+
+    // create row
     var row = new Emitter();
     row.key = id;
     row.value = change.value;
     row.element = self._create(row);
-
-    // save row
-    var old = self.rows[id];
     self.rows[id] = row;
 
-    // update?
-    if (old) {
-      old.emit('remove');
-      self.el.replaceChild(row.element, old.element);
+    // replace?
+    if (cur) {
+      cur.emit('remove');
+      self.el.replaceChild(row.element, cur.element);
       return;
     }
 
