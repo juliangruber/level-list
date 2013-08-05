@@ -54,9 +54,7 @@ Sort the list by the given comparator function, that gets both rows as
 arguments.
 
 Use [comparator](https://github.com/juliangruber/comparator) to create
-comparators conveniently.
-
-This would sort by `row.key` in descending order:
+comparators conveniently. This would sort by `row.key` in descending order:
 
 ```js
 var comparator = require('comparator');
