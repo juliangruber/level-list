@@ -18,7 +18,8 @@
     "tape": "*",
     "memdb": "0.0.1",
     "beefy": "~0.4.1",
-    "insert-css": "0.0.0"
+    "insert-css": "0.0.0",
+    "comparator": "0.0.1"
   },
   "keywords": [
     "level",

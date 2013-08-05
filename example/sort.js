@@ -4,6 +4,7 @@
 
 var List = require('..');
 var MemDB = require('memdb');
+var comparator = require('comparator');
 require('insert-css')(require('./style'));
 
 /**
@@ -22,9 +23,7 @@ var list = List(db)
     el.appendChild(document.createTextNode(row.value));
     return el;
   })
-  .sort(function (a, b) {
-    return b.key - a.key;
-  });
+  .sort(comparator.desc('key'));
 
 /**
  * Insert into dom.
