@@ -1,4 +1,5 @@
 var liveStream = require('level-live-stream');
+var Emitter = require('events').EventEmitter;
 
 module.exports = List;
 
@@ -9,7 +10,7 @@ function List (db, fn) {
   this.el = document.createElement('div');
   this.stream = null;
   this._limit = Infinity;
-  this.elements = {};
+  this.rows = {};
 
   process.nextTick(this.seed.bind(this, fn));
 }
@@ -17,27 +18,38 @@ function List (db, fn) {
 List.prototype.seed = function (fn) {
   var self = this;
   self.stream = live(self.db, function (change) {
+    var id = change.key;
 
     // delete?
     if (change.type == 'del') {
-      self.el.removeChild(self.elements[change.key]);
+      var row = self.rows[id];
+      self.el.removeChild(row.element);
+      row.emit('remove');
       return;
     }
 
     // create element
-    var el = fn(change.value, change.key);
-    var old = self.elements[change.key];
-    self.elements[change.key] = el;
+    var row = new Emitter();
+    row.key = change.key;
+    row.value = change.value;
+    row.element = fn(row);
+
+    // save row
+    var old = self.rows[id];
+    self.rows[id] = row;
 
     // update?
     if (old) {
-      self.el.replaceChild(el, old);
+      old.emit('remove');
+      self.el.replaceChild(row.element, old.element);
       return;
     }
 
     // insert
-    self.el.appendChild(el);
-    if (self.elements.length == self._limit) this.destroy();
+    self.el.appendChild(row.element);
+    if (Object.keys(self.rows).length == self._limit) {
+      this.destroy();
+    }
 
   });
 };

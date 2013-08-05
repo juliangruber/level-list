@@ -16,9 +16,9 @@ var db = MemDB();
  * Create a list.
  */
 
-var list = List(db, function (title) {
+var list = List(db, function (row) {
   var el = document.createElement('p');
-  el.appendChild(document.createTextNode(title));
+  el.appendChild(document.createTextNode(row.value));
   return el;
 });
 

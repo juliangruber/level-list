@@ -16,9 +16,12 @@ var db = MemDB();
  * Create a list.
  */
 
-var list = List(db, function (title) {
+var list = List(db, function (row) {
   var el = document.createElement('p');
-  el.appendChild(document.createTextNode(title));
+  el.appendChild(document.createTextNode(row.value));
+  row.on('remove', function () {
+    console.log('removed');
+  });
   return el;
 });
 
@@ -35,10 +38,8 @@ document.body.appendChild(list.el);
 var i = 0;
 (function insert () {
   if (i < 5) {
-    console.log('insert', i)
     db.put(i+'', (new Date).toString());
   } else if (i < 10) {
-    console.log('delete', 5 - (i - 4))
     db.del((5 - (i - 4)) +'');
   } else {
     return;

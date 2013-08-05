@@ -13,9 +13,9 @@ var MemDB = require('memdb');
 var db = MemDB();
 
 // create a list with your db and a function that generates dom elements
-var list = List(db, function (title) {
+var list = List(db, function (row) {
   var el = document.createElement('p');
-  el.appendChild(document.createTextNode(title));
+  el.appendChild(document.createTextNode(row.value));
   return el;
 });
 
@@ -35,7 +35,8 @@ Todo.
 
 ### List(db, fn)
 
-`fn` is called with `(value, key)`.
+`fn` is called with `row`, which has `key`, `value` and emits `remove`
+events, so you can clean up if necessary.
 
 ### List#limit(count)
 
