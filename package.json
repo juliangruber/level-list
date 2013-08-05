@@ -12,14 +12,15 @@
     "start": "beefy example/simple.js"
   },
   "dependencies": {
-    "level-live-stream": "~1.4.7"
+    "level-live-stream": "~1.4.7",
+    "domify": "~1.0.0"
   },
   "devDependencies": {
-    "tape": "*",
     "memdb": "0.0.1",
     "beefy": "~0.4.1",
     "insert-css": "0.0.0",
-    "comparator": "0.0.1"
+    "comparator": "0.0.1",
+    "reactive-component": "git://github.com/juliangruber/reactive.git#browserify"
   },
   "keywords": [
     "level",

@@ -4,6 +4,8 @@
 
 var List = require('..');
 var MemDB = require('memdb');
+var reactive = require('reactive-component');
+var domify = require('domify');
 require('insert-css')(require('./style'));
 
 /**
@@ -16,14 +18,11 @@ var db = MemDB();
  * Create a list.
  */
 
+var tmpl = '<div><p data-text="value"></p></div>';
+
 var list = List(db, function (row) {
-  var el = document.createElement('p');
-  el.appendChild(document.createTextNode(row.value));
-  row.on('update', function () {
-    el.innerHTML = '';
-    el.appendChild(document.createTextNode(row.value));
-  });
-  return el;
+  var view = reactive(domify(tmpl), row);
+  return view.el;
 });
 
 /**

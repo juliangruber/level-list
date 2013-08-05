@@ -68,17 +68,21 @@ The list's dom element.
 A `remove` event is emitted when an already showed row needs to be removed, so
 you can clean up if necessary.
 
-### Row#on('update', fn)
+### Row#on('update', fn), Row#on('change value', fn)
 
-If you listen for the `update` event, your dom element won't be replaced.
-Instead, you get the new data, so you can update it yourself.
+If you listen for the `update` and/or the `change value` event, your dom
+element won't be replaced. Instead, you can use `row`'s updated data to update
+it yourself.
+
+This is especially handy when using
+[component/reactive](https://github.com/component/reactive), see the
+[example](https://github.com/juliangruber/level-list/blob/master/example/reactive.js).
 
 ## TODO
 
 * sorting with limit
 * infinite scrolling and/or load more
 * testling tests
-* integrate with reactive
 
 ## License
 

@@ -34,10 +34,15 @@ List.prototype.seed = function () {
 
     // current row?
     var cur = self.rows[id];
+    var listeners = cur
+      && (cur.listeners('update').length
+      || cur.listeners('change value').length);
 
     // update?
-    if (cur && cur.listeners('update').length) {
-      cur.emit('update', { key: id, value: change.value });
+    if (listeners) {
+      cur.value = change.value;
+      cur.emit('change value');
+      cur.emit('update');
       return;
     }
 
