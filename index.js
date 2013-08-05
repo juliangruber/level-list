@@ -10,6 +10,7 @@ function List (db, fn) {
   this.el = document.createElement('div');
   this.stream = null;
   this._limit = Infinity;
+  this._sort = function () { return 0 };
   this.rows = {};
 
   process.nextTick(this.seed.bind(this, fn));
@@ -30,7 +31,7 @@ List.prototype.seed = function (fn) {
 
     // create element
     var row = new Emitter();
-    row.key = change.key;
+    row.key = id;
     row.value = change.value;
     row.element = fn(row);
 
@@ -45,8 +46,25 @@ List.prototype.seed = function (fn) {
       return;
     }
 
+    // sort
+    var rows = Object
+      .keys(self.rows)
+      .map(function (key) {
+        return self.rows[key];
+      })
+      .sort(self._sort);
+    var position = rows.indexOf(row);
+    if (position == -1) position = rows.length;
+
     // insert
-    self.el.appendChild(row.element);
+    if (rows.length == 1 || position == rows.length - 1) {
+      self.el.appendChild(row.element);
+    } else {
+      var before = self.rows[rows[position + 1].key];
+      self.el.insertBefore(row.element, before.element);
+    }
+
+    // apply limit
     if (Object.keys(self.rows).length == self._limit) {
       this.destroy();
     }
@@ -54,10 +72,21 @@ List.prototype.seed = function (fn) {
   });
 };
 
-List.prototype.limit = function (count) {
+List.prototype.limit = c(function (count) {
   this._limit = count;
-};
+});
+
+List.prototype.sort = c(function (fn) {
+  this._sort = fn;
+});
 
 function live (db, fn) {
   return liveStream(db).on('data', fn);
+}
+
+function c (fn) {
+  return function () {
+    fn.apply(this, arguments);
+    return this;
+  }
 }

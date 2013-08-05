@@ -40,9 +40,14 @@ events, so you can clean up if necessary.
 
 Limit the display to `count` entries.
 
+### List#sort(fn)
+
+Sort the list by the given comparator function, that gets both rows as
+arguments.
+
 ## TODO
 
-* sorting
+* sorting with limit
 * infinite scrolling and/or load more
 * testling tests
 
