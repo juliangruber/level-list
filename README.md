@@ -48,6 +48,8 @@ arguments.
 ## TODO
 
 * sorting with limit
+* more convenient sorting abstraction
+* pass fn to method instead of constructor?
 * infinite scrolling and/or load more
 * testling tests
 
