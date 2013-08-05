@@ -78,6 +78,7 @@ Instead, you get the new data, so you can update it yourself.
 * sorting with limit
 * infinite scrolling and/or load more
 * testling tests
+* integrate with reactive
 
 ## License
 
