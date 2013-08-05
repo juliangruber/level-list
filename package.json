@@ -12,13 +12,13 @@
     "start": "beefy example/simple.js"
   },
   "dependencies": {
-    "level-live-stream": "~1.4.7"
+    "level-live-stream": "~1.4.7",
+    "comparator": "0.0.1"
   },
   "devDependencies": {
     "memdb": "0.0.1",
     "beefy": "~0.4.1",
     "insert-css": "0.0.0",
-    "comparator": "0.0.1",
     "domify": "~1.0.0",
     "reactive-component": "git://github.com/juliangruber/reactive.git#browserify"
   },

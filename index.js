@@ -1,5 +1,6 @@
 var liveStream = require('level-live-stream');
 var Emitter = require('events').EventEmitter;
+var comparator = require('comparator');
 
 module.exports = List;
 
@@ -10,7 +11,7 @@ function List (db, fn) {
   this.el = document.createElement('div');
   this.stream = null;
   this._limit = Infinity;
-  this._sort = function () { return 0 };
+  this._sort = comparator('_key');
   this._create = fn || function () {
     throw new Error('needs a create function');
   };
