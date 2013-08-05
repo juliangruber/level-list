@@ -31,8 +31,6 @@ document.body.appendChild(list.el);
 
 ## API
 
-Todo.
-
 ### List(db, fn)
 
 `fn` is called with `row`, which has `key`, `value` and emits `remove`
@@ -40,11 +38,13 @@ events, so you can clean up if necessary.
 
 ### List#limit(count)
 
+Limit the display to `count` entries.
+
 ## TODO
 
-* emit delete event
 * sorting
 * infinite scrolling and/or load more
+* testling tests
 
 ## License
 
