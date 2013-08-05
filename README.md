@@ -71,7 +71,6 @@ The list's dom element.
 ## TODO
 
 * sorting with limit
-* more convenient sorting abstraction
 * infinite scrolling and/or load more
 * testling tests
 
