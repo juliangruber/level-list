@@ -16,13 +16,13 @@ var db = MemDB();
  * Create a list.
  */
 
-var list = List(db, function (row) {
-  var el = document.createElement('p');
-  el.appendChild(document.createTextNode(row.value));
-  return el;
-});
-
-list.limit(5);
+var list = List(db)
+  .create(function (row) {
+    var el = document.createElement('p');
+    el.appendChild(document.createTextNode(row.value));
+    return el;
+  })
+  .limit(5);
 
 /**
  * Insert into dom.

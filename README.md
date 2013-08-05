@@ -31,10 +31,18 @@ document.body.appendChild(list.el);
 
 ## API
 
-### List(db, fn)
+### List(db[, fn])
 
-`fn` is called with `row`, which has `key`, `value` and emits `remove`
-events, so you can clean up if necessary.
+Create a new list that pulls data from `db`. Either pass a `fn` that creates
+dom elements here or to `List#create`.
+
+### List#create(fn)
+
+`fn` is called with a `row` and should return a dom element.
+
+Row is a EventEmitter with `key`, `value` as keys. It emits a `remove`
+events when an already showed row needs to be removed, so you can clean up if
+necessary.
 
 ### List#limit(count)
 
@@ -45,11 +53,14 @@ Limit the display to `count` entries.
 Sort the list by the given comparator function, that gets both rows as
 arguments.
 
+### List#el
+
+The list's dom element.
+
 ## TODO
 
 * sorting with limit
 * more convenient sorting abstraction
-* pass fn to method instead of constructor?
 * infinite scrolling and/or load more
 * testling tests
 

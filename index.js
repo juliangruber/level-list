@@ -11,12 +11,15 @@ function List (db, fn) {
   this.stream = null;
   this._limit = Infinity;
   this._sort = function () { return 0 };
+  this._create = fn || function () {
+    throw new Error('needs a create function');
+  };
   this.rows = {};
 
-  process.nextTick(this.seed.bind(this, fn));
+  process.nextTick(this.seed.bind(this));
 }
 
-List.prototype.seed = function (fn) {
+List.prototype.seed = function () {
   var self = this;
   self.stream = live(self.db, function (change) {
     var id = change.key;
@@ -33,7 +36,7 @@ List.prototype.seed = function (fn) {
     var row = new Emitter();
     row.key = id;
     row.value = change.value;
-    row.element = fn(row);
+    row.element = self._create(row);
 
     // save row
     var old = self.rows[id];
@@ -78,6 +81,10 @@ List.prototype.limit = c(function (count) {
 
 List.prototype.sort = c(function (fn) {
   this._sort = fn;
+});
+
+List.prototype.create = c(function (fn) {
+  this._create = fn;
 });
 
 function live (db, fn) {

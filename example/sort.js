@@ -16,15 +16,15 @@ var db = MemDB();
  * Create a list.
  */
 
-var list = List(db, function (row) {
-  var el = document.createElement('p');
-  el.appendChild(document.createTextNode(row.value));
-  return el;
-});
-
-list.sort(function (a, b) {
-  return b.key - a.key;
-});
+var list = List(db)
+  .create(function (row) {
+    var el = document.createElement('p');
+    el.appendChild(document.createTextNode(row.value));
+    return el;
+  })
+  .sort(function (a, b) {
+    return b.key - a.key;
+  });
 
 /**
  * Insert into dom.
