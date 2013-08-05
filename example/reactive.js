@@ -41,9 +41,8 @@ var i = 0;
     db.put(i+'', (new Date).toString());
   } else if (i < 10) {
     db.put((5 - (i - 4)) +'', (new Date).toString());
-  } else {
-    return;
   }
   i++;
+  if (i == 10) i = 0;
   setTimeout(insert, 1000);
 })();
