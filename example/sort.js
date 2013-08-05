@@ -20,10 +20,10 @@ var db = MemDB();
 var list = List(db)
   .create(function (row) {
     var el = document.createElement('p');
-    el.appendChild(document.createTextNode(row.value));
+    el.appendChild(document.createTextNode(row.date));
     return el;
   })
-  .sort(comparator.desc('key'));
+  .sort(comparator.desc('_key'));
 
 /**
  * Insert into dom.
@@ -36,6 +36,6 @@ document.body.appendChild(list.el);
  */
 
 (function insert () {
-  db.put(Date.now(), (new Date).toString());
+  db.put(Date.now(), { date: (new Date).toString() });
   setTimeout(insert, 1000);
 })();

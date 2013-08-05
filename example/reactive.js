@@ -18,7 +18,7 @@ var db = MemDB();
  * Create a list.
  */
 
-var tmpl = '<div><p data-text="value"></p></div>';
+var tmpl = '<div><p>{date}</p></div>';
 
 var list = List(db, function (row) {
   var view = reactive(domify(tmpl), row);
@@ -38,9 +38,9 @@ document.body.appendChild(list.el);
 var i = 0;
 (function insert () {
   if (i < 5) {
-    db.put(i+'', (new Date).toString());
+    db.put(i+'', { date: (new Date).toString() });
   } else if (i < 10) {
-    db.put((5 - (i - 4)) +'', (new Date).toString());
+    db.put((5 - (i - 4)) +'', { date: (new Date).toString() });
   }
   i++;
   if (i == 10) i = 0;

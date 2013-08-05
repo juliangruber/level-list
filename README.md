@@ -15,7 +15,7 @@ var db = MemDB();
 // create a list with your db and a function that generates dom elements
 var list = List(db, function (row) {
   var el = document.createElement('p');
-  el.appendChild(document.createTextNode(row.value));
+  el.appendChild(document.createTextNode(row.date));
   return el;
 });
 
@@ -24,7 +24,7 @@ document.body.appendChild(list.el);
 
 // insert some data into the db
 (function insert () {
-  db.put(Date.now(), (new Date).toString());
+  db.put(Date.now(), { date: (new Date).toString() });
   setTimeout(insert, 1000);
 })();
 ```
@@ -39,7 +39,8 @@ dom elements here or to `List#create`.
 ### List#create(fn)
 
 `fn` is called with a `row` and should return a dom element. `row` is an
-EventEmitter with `key`, `value` as keys. See its events below.
+EventEmitter with all the json data read from the db on it. For its events, see
+below.
 
 ### List#limit(count)
 
@@ -51,12 +52,12 @@ Sort the list by the given comparator function, that gets both rows as
 arguments.
 
 Use [comparator](https://github.com/juliangruber/comparator) to create
-comparators conveniently. This would sort by `row.key` in descending order:
+comparators conveniently. This would sort by `row._key` in descending order:
 
 ```js
 var comparator = require('comparator');
 
-list.sort(comparator.desc('key'));
+list.sort(comparator.desc('_key'));
 ```
 
 ### List#el
@@ -68,15 +69,23 @@ The list's dom element.
 A `remove` event is emitted when an already showed row needs to be removed, so
 you can clean up if necessary.
 
-### Row#on('update', fn), Row#on('change value', fn)
+### Row#on('update', fn), Row#on('change *', fn)
 
-If you listen for the `update` and/or the `change value` event, your dom
+If you listen for the `update` and/or one of the `change *` events, your dom
 element won't be replaced. Instead, you can use `row`'s updated data to update
 it yourself.
 
 This is especially handy when using
 [component/reactive](https://github.com/component/reactive), see the
 [example](https://github.com/juliangruber/level-list/blob/master/example/reactive.js).
+
+### Row#_key
+
+The key that `row`'s data was found under.
+
+### Row#_element
+
+The `row`'s element.
 
 ## TODO
 

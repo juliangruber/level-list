@@ -18,7 +18,7 @@ var db = MemDB();
 
 var list = List(db, function (row) {
   var el = document.createElement('p');
-  el.appendChild(document.createTextNode(row.value));
+  el.appendChild(document.createTextNode(row.date));
   row.on('remove', function () {
     console.log('removed');
   });
@@ -38,7 +38,7 @@ document.body.appendChild(list.el);
 var i = 0;
 (function insert () {
   if (i < 5) {
-    db.put(i+'', (new Date).toString());
+    db.put(i+'', { date: (new Date).toString() });
   } else if (i < 10) {
     db.del((5 - (i - 4)) +'');
   } else {

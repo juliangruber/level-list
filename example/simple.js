@@ -18,7 +18,7 @@ var db = MemDB();
 
 var list = List(db, function (row) {
   var el = document.createElement('p');
-  el.appendChild(document.createTextNode(row.value));
+  el.appendChild(document.createTextNode(row.date));
   return el;
 });
 
@@ -33,6 +33,6 @@ document.body.appendChild(list.el);
  */
 
 (function insert () {
-  db.put(Date.now(), (new Date).toString());
+  db.put(Date.now(), { date: (new Date).toString() });
   setTimeout(insert, 1000);
 })();
