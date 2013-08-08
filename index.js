@@ -98,7 +98,8 @@ List.prototype.sort = set('sort');
 List.prototype.create = set('create');
 
 function live (db, fn) {
-  return liveStream(db).on('data', fn);
+  if (!db.createLiveStream) liveStream.install(db);
+  return db.createLiveStream().on('data', fn);
 }
 
 function set (prop) {
