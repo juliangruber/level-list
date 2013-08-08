@@ -103,7 +103,7 @@ function live (db, fn) {
 
 function set (prop) {
   return function (value) {
-    this[_ + 'prop'] = value;
+    this['_' + prop] = value;
     return this;
   };
 }
