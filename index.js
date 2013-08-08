@@ -10,11 +10,11 @@ function List (db, fn) {
   this.db = db;
   this.el = document.createElement('div');
   this.stream = null;
-  this._limit = Infinity;
-  this._sort = comparator('_key');
-  this._create = fn || function () {
+  this.limit(Infinity);
+  this.sort(comparator('_key'));
+  this.create(fn || function () {
     throw new Error('needs a create function');
-  };
+  });
   this.rows = {};
 
   process.nextTick(this.seed.bind(this));
@@ -24,10 +24,11 @@ List.prototype.seed = function () {
   var self = this;
   self.stream = live(self.db, function (change) {
     var id = change.key;
+    var row;
 
     // delete?
     if (change.type == 'del') {
-      var row = self.rows[id];
+      row = self.rows[id];
       self.el.removeChild(row._element);
       row.emit('remove');
       return;
@@ -43,16 +44,17 @@ List.prototype.seed = function () {
     });
     if (listeners) {
       for (var prop in change.value) {
-        var changed = cur[prop] != change.value[prop];
-        cur[prop] = change.value[prop];
-        if (changed) cur.emit('change ' + prop);
+        if (cur[prop] != change.value[prop]) {
+          cur[prop] = change.value[prop];
+          cur.emit('change ' + prop);
+        }
       }
       cur.emit('update');
       return;
     }
 
     // create row
-    var row = new Emitter();
+    row = new Emitter();
     merge(row, change.value);
     row._key = id;
     row._element = self._create(row);
@@ -91,27 +93,19 @@ List.prototype.seed = function () {
   });
 };
 
-List.prototype.limit = c(function (count) {
-  this._limit = count;
-});
-
-List.prototype.sort = c(function (fn) {
-  this._sort = fn;
-});
-
-List.prototype.create = c(function (fn) {
-  this._create = fn;
-});
+List.prototype.limit = set('limit');
+List.prototype.sort = set('sort');
+List.prototype.create = set('create');
 
 function live (db, fn) {
   return liveStream(db).on('data', fn);
 }
 
-function c (fn) {
-  return function () {
-    fn.apply(this, arguments);
+function set (prop) {
+  return function (value) {
+    this[_ + 'prop'] = value;
     return this;
-  }
+  };
 }
 
 function merge (a, b) {
