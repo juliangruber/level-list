@@ -13,7 +13,9 @@
   },
   "dependencies": {
     "level-live-stream": "~1.4.7",
-    "comparator": "0.0.1"
+    "comparator": "0.0.1",
+    "deep-access": "0.0.1",
+    "level-fix-range": "~2.0.0"
   },
   "devDependencies": {
     "memdb": "0.0.1",

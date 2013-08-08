@@ -1,5 +1,7 @@
 var liveStream = require('level-live-stream');
+var fix = require('level-fix-range');
 var Emitter = require('events').EventEmitter;
+var deep = require('deep-access');
 var comparator = require('comparator');
 
 module.exports = List;
@@ -11,7 +13,7 @@ function List (db, fn) {
   this.el = document.createElement('div');
   this.stream = null;
   this.limit(Infinity);
-  this.sort(comparator('_key'));
+  this.sort('_key', 'desc');
   this.create(fn || function () {
     throw new Error('needs a create function');
   });
@@ -20,9 +22,13 @@ function List (db, fn) {
   process.nextTick(this.seed.bind(this));
 }
 
-List.prototype.seed = function () {
+List.prototype.seed = function (opts) {
   var self = this;
-  self.stream = live(self.db, function (change) {
+  var sort = comparator[this.sortDir](this.sortKey);
+  opts = opts || {};
+  opts.reverse = self.sortDir == 'desc';
+  
+  self.stream = live(self.db, fix(opts), function (change) {
     var id = change.key;
     var row;
 
@@ -73,7 +79,8 @@ List.prototype.seed = function () {
       .map(function (key) {
         return self.rows[key];
       })
-      .sort(self._sort);
+      .sort(sort);
+    // TODO: limit to self._limit, remove/update row if necessary
     var position = rows.indexOf(row);
     if (position == -1) position = rows.length;
 
@@ -86,15 +93,40 @@ List.prototype.seed = function () {
     }
 
     // apply limit
-    if (Object.keys(self.rows).length == self._limit) {
+    if (rows.length == self._limit) {
       this.destroy();
+      if (self._limit == Infinity) return;
+      // TODO: destroy when new stream is made up
+      
+      if (self.sortDir == 'asc') {
+        self.seed({ end: rows[rows.length - 1]._key });
+      } else {
+        self.seed({ start: rows[0]._key });
+      }
     }
 
   });
 };
 
 List.prototype.limit = set('limit');
-List.prototype.sort = set('sort');
+
+/**
+ * Sort by `key` in `dir` direction.
+ *
+ * @param {String} key
+ * @param {String='desc'} dir
+ * @return {List}
+ */
+ 
+List.prototype.sort = function (key, dir) {
+  if (dir && dir != 'asc' && dir != 'desc') {
+    throw new TypeError('direction has to be asc or desc');
+  }
+  this.sortKey = key;
+  this.sortDir = dir;
+  return this;
+};
+
 List.prototype.create = set('create');
 
 function live (db, fn) {
