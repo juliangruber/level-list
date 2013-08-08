@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var List = require('..');
+var List = require('../..');
 var reactive = require('reactive-component');
 var domify = require('domify');
 var Emitter = require('events').EventEmitter;
