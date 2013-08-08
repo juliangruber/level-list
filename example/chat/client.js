@@ -11,6 +11,7 @@ var inherits = require('util').inherits;
 var multilevel = require('multilevel');
 var engine = require('engine.io-stream');
 var manifest = require('./manifest.json');
+var tmpl = require('./input');
 require('insert-css')(require('../style'));
 
 /**
@@ -42,13 +43,7 @@ reactive.bind('autosubmit', function (el) {
 function InputView () {
   Emitter.call(this);
   this.name = 'juliangruber';
-  this.el = domify(
-    '<div>' +
-      'Username: ' +
-      '<input type="text" value="{name}" on-input="updateName"></input> ' +
-      'Message: ' +
-      '<input type="text" autosubmit></input>' +
-    '</div>');
+  this.el = domify(tmpl);
   this.view = reactive(this.el, {}, this);
 }
 

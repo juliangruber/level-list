@@ -1,0 +1,1 @@
+module.exports = '<div>\n  Username:\n  <input type="text" value="{name}" on-input="updateName"></input>\n  Message:\n  <input type="text" autosubmit></input>\n</div>';
