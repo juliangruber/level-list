@@ -32,7 +32,7 @@ var list = List(db, function (row) {
 document.body.appendChild(list.el);
 
 /**
- * Insert some demo data, then delete it.
+ * Insert some demo data, then delete it, then ad it again.
  */
 
 var i = 0;
@@ -41,6 +41,8 @@ var i = 0;
     db.put(i+'', { date: (new Date).toString() });
   } else if (i < 10) {
     db.del((5 - (i - 4)) +'');
+  } else if (i < 15) {
+    db.put(i-10+'', { date: (new Date).toString() })
   } else {
     return;
   }
