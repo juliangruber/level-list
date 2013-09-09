@@ -31,6 +31,7 @@ List.prototype.seed = function () {
       row = self.rows[id];
       self.el.removeChild(row._element);
       row.emit('remove');
+      delete self.rows[id];
       return;
     }
 
