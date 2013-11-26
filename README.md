@@ -31,10 +31,11 @@ document.body.appendChild(list.el);
 
 ## API
 
-### List(db[, fn])
+### List(db[, tag][, fn])
 
-Create a new list that pulls data from `db`. Either pass a `fn` that creates
-dom elements here or to `List#create`.
+Create a new list that pulls data from `db`.
+The list's elements will be wrapped inside `tag`, which defaults to `div`.
+Either pass a `fn` that creates dom elements here, or to `List#create`.
 
 ### List#create(fn)
 
