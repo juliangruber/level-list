@@ -23,7 +23,7 @@ function List (db, fn) {
 List.prototype.seed = function () {
   var self = this;
   self.stream = live(self.db, function (change) {
-    var id = change.key;
+    var id = Array.prototype.join.call(change.key, "");
     var row;
 
     // delete?
