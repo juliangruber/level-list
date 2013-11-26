@@ -13,11 +13,11 @@ require('insert-css')(require('./style'));
 var db = MemDB();
 
 /**
- * Create a list.
+ * Create a list wrapped in an unordered list.
  */
 
-var list = List(db, function (row) {
-  var el = document.createElement('div');
+var list = List(db, 'ul', function (row) {
+  var el = document.createElement('li');
   el.appendChild(document.createTextNode(row.date));
   return el;
 });
