@@ -6,11 +6,11 @@ module.exports = List;
 
 function List (db, tag, fn) {
   if (!(this instanceof List)) return new List(db, tag, fn);
-
-  if(!fn && typeof tag === "function") {
+  if (typeof tag == 'function') {
     fn = tag;
-    tag = 'div';
+    tag = null;
   }
+  if (!tag) tag = 'div';
 
   this.db = db;
   this.el = document.createElement(tag);
