@@ -16,8 +16,8 @@ var db = MemDB();
  * Create a list.
  */
 
-var list = List(db, function (row) {
-  var el = document.createElement('p');
+var list = List(db, 'ul', function (row) {
+  var el = document.createElement('li');
   el.appendChild(document.createTextNode(row.date));
   return el;
 });

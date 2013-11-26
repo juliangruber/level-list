@@ -4,11 +4,16 @@ var comparator = require('comparator');
 
 module.exports = List;
 
-function List (db, fn) {
-  if (!(this instanceof List)) return new List(db, fn);
+function List (db, tag, fn) {
+  if (!(this instanceof List)) return new List(db, tag, fn);
+
+  if(!fn && typeof tag === "function") {
+    fn = tag;
+    tag = 'div';
+  }
 
   this.db = db;
-  this.el = document.createElement('div');
+  this.el = document.createElement(tag);
   this.stream = null;
   this.limit(Infinity);
   this.sort(comparator('_key'));
