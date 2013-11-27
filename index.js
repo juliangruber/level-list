@@ -28,8 +28,7 @@ function List (db, tag, fn) {
 List.prototype.seed = function () {
   var self = this;
   self.stream = live(self.db, function (change) {
-    var key = change.key;
-    var id = Array.prototype.join.call(key, "");
+    var id = Array.prototype.join.call(change.key, "");
     var row;
 
     // delete?
@@ -62,8 +61,8 @@ List.prototype.seed = function () {
 
     // create row
     row = new Emitter();
-    row.value = change.value;
-    row._key = key;
+    merge(row, change.value);
+    row._key = id;
     row._element = self._create(row);
     self.rows[id] = row;
 
