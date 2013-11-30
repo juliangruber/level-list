@@ -62,17 +62,35 @@ test('updating list', function(t) {
   });
 });
 
-test('list limit', function(t) {
-  list.limit(5);
+test('various key types', function(t) {
+  var d = new MemDB();
+  var l = List(d);
 
-  for(var i = 0 ; i < 10; i++) {
-    db.put('key' + i, { date: Date.now() });
-  }
+  t.test('string', function(st) {
+    var key = '111';
 
-  t.test('expect list to contain 5', function(st) {
-    st.equal(list.el.children.length, 5);
-    st.end();
+    l.create(function(row) {
+      st.equal(row._key, key);
+      st.end();
+      return document.createElement("div");
+    });
+
+    d.put(key, {});
   });
+
+  t.test('numeric', function(st) {
+    var key = 111;
+
+    l.create(function(row) {
+      st.equal(row._key, key);
+      st.end();
+      return document.createElement("div");
+    });
+
+    d.put(key, {});
+  });
+
+  t.end();
 });
 
 test('elemnt changes', function(t) {
@@ -88,5 +106,18 @@ test('elemnt changes', function(t) {
     });
 
     t.end();
+  });
+});
+
+test('list limit', function(t) {
+  list.limit(5);
+
+  for(var i = 0 ; i < 10; i++) {
+    db.put('key' + i, { date: Date.now() });
+  }
+
+  t.test('expect list to contain 5', function(st) {
+    st.equal(list.el.children.length, 5);
+    st.end();
   });
 });
