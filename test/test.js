@@ -75,7 +75,6 @@ test('list limit', function(t) {
   });
 });
 
-/*
 test('elemnt changes', function(t) {
   t.test(function(st) {
     db.put('datekey', { date: 'then' });
@@ -91,4 +90,3 @@ test('elemnt changes', function(t) {
     t.end();
   });
 });
-*/

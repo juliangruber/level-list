@@ -29,7 +29,6 @@
     "engine.io-stream": "~0.4.0",
     "browserify": "~2.26.0",
     "level-manifest": "~1.1.1",
-    "tap": "~0.4.6",
     "testling": "~1.5.3",
     "tape": "~2.3.0"
   },
