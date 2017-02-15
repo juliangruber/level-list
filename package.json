@@ -23,7 +23,7 @@
     "reactive-component": "git://github.com/juliangruber/reactive.git#browserify",
     "multilevel": "~7.3.0",
     "engine.io-stream": "~0.4.0",
-    "browserify": "~13.2.0",
+    "browserify": "~14.0.0",
     "level-manifest": "~1.2.0"
   },
   "keywords": [
