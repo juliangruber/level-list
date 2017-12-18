@@ -28,7 +28,10 @@ function List (db, tag, fn) {
 List.prototype.seed = function () {
   var self = this;
   self.stream = live(self.db, function (change) {
-    var id = Array.prototype.join.call(change.key, "");
+    if (typeof change.key === 'undefined' || typeof change.type === 'undefined') return;
+    var id = Array.isArray(change.key)
+      ? Array.prototype.join.call(change.key, "")
+      : change.key;
     var row;
 
     // delete?
